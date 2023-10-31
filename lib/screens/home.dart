@@ -43,25 +43,30 @@ class _HomeState extends State<Home> {
           itemCount: _userModel!.length,
           itemBuilder: (context, index) {
             return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-                side: const BorderSide(color: Colors.white, width: 2.0),
-              ),
               child: Container(
-                color: Colors.blue,
+                decoration: BoxDecoration(color: Colors.yellow,
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                  margin: const EdgeInsets.all(6.0),
                   child: Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: DecoratedBox(
                         decoration: const BoxDecoration(
-                          color: Colors.blue,
+                          color: Colors.yellow,
                         ),
                         child: Column(
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(_userModel![index].id.toString()),
-                                Text(_userModel![index].name),
+                                Text(
+                                    _userModel![index].id.toString(),
+                                  style: const TextStyle(fontSize: 24, color: Colors.black),
+                                ),
+                                Text(
+                                    _userModel![index].name,
+                                  style: const TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.bold),
+                                ),
                               ],
                             ),
                             const SizedBox(
@@ -70,8 +75,14 @@ class _HomeState extends State<Home> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(_userModel![index].email),
-                                Text(_userModel![index].website),
+                                Text(
+                                    _userModel![index].email,
+                                  style: const TextStyle(fontSize: 18, color: Colors.black),
+                                ),
+                                Text(
+                                    _userModel![index].website,
+                                  style: const TextStyle(fontSize: 18, color: Colors.black),
+                                ),
                               ],
                             ),
                           ],
