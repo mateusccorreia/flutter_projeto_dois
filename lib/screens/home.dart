@@ -43,17 +43,11 @@ class _HomeState extends State<Home> {
           itemCount: _userModel!.length,
           itemBuilder: (context, index) {
             return Card(
-              child: Container(
-                decoration: BoxDecoration(color: Colors.yellow,
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                  margin: const EdgeInsets.all(6.0),
-                  child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: DecoratedBox(
-                        decoration: const BoxDecoration(
-                          color: Colors.yellow,
-                        ),
+              margin: const EdgeInsets.all(12.0),
+              color: Colors.yellow,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  child: Container(
+                      padding: const EdgeInsets.all(12.0),
                         child: Column(
                           children: [
                             Row(
@@ -87,10 +81,8 @@ class _HomeState extends State<Home> {
                             ),
                           ],
                         ),
-                      )
-                  )
-              ),
-            );
+                      ),
+              );
           },
         ),
       ),
