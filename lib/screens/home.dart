@@ -11,6 +11,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late List<UserModel>? _userModel = [];
+  var _state = State.loading;
 
   @override
   void initState() {
@@ -25,68 +26,94 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final userModel = _userModel;
+
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: Colors.blueGrey
+        primaryColor: Colors.blueGrey,
       ),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('REST API - Mateus'),
         ),
         backgroundColor: Colors.purple,
-        body: _userModel == null || _userModel!.isEmpty
-            ? const Center(
-          child: CircularProgressIndicator(),
-        )
-            : ListView.builder(
-          itemCount: _userModel!.length,
-          itemBuilder: (context, index) {
-            return Card(
-              margin: const EdgeInsets.all(12.0),
-              color: Colors.yellow,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                  child: Container(
-                      padding: const EdgeInsets.all(12.0),
-                        child: Column(
+        body: () {
+          if (userModel == null || userModel.isEmpty) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: userModel.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  margin: const EdgeInsets.all(12.0),
+                  color: Colors.yellow,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                    _userModel![index].id.toString(),
-                                  style: const TextStyle(fontSize: 24, color: Colors.black),
-                                ),
-                                Text(
-                                    _userModel![index].name,
-                                  style: const TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.bold),
-                                ),
-                              ],
+                            Text(
+                              _userModel![index].id.toString(),
+                              style: const TextStyle(
+                                fontSize: 24,
+                                color: Colors.black,
+                              ),
                             ),
-                            const SizedBox(
-                              height: 20.0,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                    _userModel![index].email,
-                                  style: const TextStyle(fontSize: 18, color: Colors.black),
-                                ),
-                                Text(
-                                    _userModel![index].website,
-                                  style: const TextStyle(fontSize: 18, color: Colors.black),
-                                ),
-                              ],
+                            Text(
+                              _userModel![index].name,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
-                      ),
-              );
-          },
-        ),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              _userModel![index].email,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                //color: Colors.black,
+                              ),
+                            ),
+                            Text(
+                              _userModel![index].website,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          }
+        }(),
       ),
     );
   }
 }
 
+enum State {
+  loading,
+  loaded,
+  error,
+}

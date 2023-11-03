@@ -10,8 +10,7 @@ class ApiService {
       var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndPoint);
       var response = await http.get(url);
       if (response.statusCode == 200) {
-        List<UserModel> _model = userModelFromJson(response.body);
-        return _model;
+        return userModelFromJson(response.body);
       }
     } catch (e) {
       log(e.toString());
