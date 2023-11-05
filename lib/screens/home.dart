@@ -11,7 +11,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late List<UserModel>? _userModel = [];
-  var _state = AppState.loading;
+  // var _state = AppState.loading;
+  var loading = false;
+  var loaded = false;
+  var error = '';
 
   @override
   void initState() {
@@ -21,12 +24,16 @@ class _HomeState extends State<Home> {
 
   void _getData() async {
     setState(() {
-      this._userModel = _userModel;
+      loading = true;
+      error = '';
     });
 
     try {
       _userModel = (await ApiService().getUsers())!;
       Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+      setState(() {
+        loading = false;
+      });
     } catch (e) {
       setState(() {
         error = e.toString();
@@ -49,9 +56,17 @@ class _HomeState extends State<Home> {
         ),
         backgroundColor: Colors.purple,
         body: () {
-          if (userModel == null || userModel.isEmpty) {
+          if (loading) {
             return const Center(
               child: CircularProgressIndicator(),
+            );
+          } else if (error.isEmpty) {
+            return const Center(
+              child: Text('Lista de usuários vazia'),
+            );
+          } else if (error.isNotEmpty) {
+            return const Center(
+              child: Text(error),
             );
           } else {
             return ListView.builder(
@@ -122,8 +137,8 @@ class _HomeState extends State<Home> {
   }
 }
 
-enum AppState {
-  loading,
-  loaded,
-  error,
-}
+// enum AppState {
+//   loading,
+//   loaded,
+//   error,
+// }
