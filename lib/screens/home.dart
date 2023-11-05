@@ -11,7 +11,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late List<UserModel>? _userModel = [];
-  var _state = State.loading;
+  var _state = AppState.loading;
 
   @override
   void initState() {
@@ -20,8 +20,18 @@ class _HomeState extends State<Home> {
   }
 
   void _getData() async {
-    _userModel = (await ApiService().getUsers())!;
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+    setState(() {
+      this._userModel = _userModel;
+    });
+
+    try {
+      _userModel = (await ApiService().getUsers())!;
+      Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+    } catch (e) {
+      setState(() {
+        error = e.toString();
+      });
+    }
   }
 
   @override
@@ -112,7 +122,7 @@ class _HomeState extends State<Home> {
   }
 }
 
-enum State {
+enum AppState {
   loading,
   loaded,
   error,
