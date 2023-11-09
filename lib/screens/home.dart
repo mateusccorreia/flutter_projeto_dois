@@ -1,50 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_projeto_dois/model/user_model.dart';
-import 'package:flutter_projeto_dois/services/api_service.dart';
+import 'package:flutter_projeto_dois/user_store.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  late List<UserModel>? _userModel = [];
-  // var _state = AppState.loading;
-  var loading = false;
-  var loaded = false;
-  var error = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _getData();
-  }
-
-  void _getData() async {
-    setState(() {
-      loading = true;
-      error = '';
-    });
-
-    try {
-      _userModel = (await ApiService().getUsers())!;
-      Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
-      setState(() {
-        loading = false;
-      });
-    } catch (e) {
-      setState(() {
-        error = e.toString();
-      });
-    }
-  }
+  final store = UserStore();
 
   @override
   Widget build(BuildContext context) {
     final userModel = _userModel;
-
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -56,15 +25,15 @@ class _HomeState extends State<Home> {
         ),
         backgroundColor: Colors.purple,
         body: () {
-          if (loading) {
+          if (store.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (error.isEmpty) {
+          } else if (store.error.isEmpty) {
             return const Center(
               child: Text('Lista de usuários vazia'),
             );
-          } else if (error.isNotEmpty) {
+          } else if (store.error.isNotEmpty) {
             return const Center(
               child: Text(error),
             );
