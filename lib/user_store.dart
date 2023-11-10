@@ -3,7 +3,7 @@ import 'package:flutter_projeto_dois/model/user_model.dart';
 import 'package:flutter_projeto_dois/services/api_service.dart';
 
 class UserStore extends ChangeNotifier {
-  late List<UserModel>? _userModel = [];
+  late List<UserModel>? userModel = [];
   // var _state = AppState.loading;
   var loading = false;
   var loaded = false;
@@ -13,7 +13,7 @@ class UserStore extends ChangeNotifier {
   void initState() {
     // super.initState();
     _getData();
-    loading = _userModel == null;
+    loading = userModel == null;
   }
 
   void _getData() async {
@@ -22,9 +22,8 @@ class UserStore extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _userModel = (await ApiService().getUsers())!;
+      userModel = (await ApiService().getUsers())!;
       // Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
-      loading = false;
       notifyListeners();
     } catch (e) {
       error = e.toString();

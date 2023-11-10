@@ -12,8 +12,18 @@ class _HomeState extends State<Home> {
   final store = UserStore();
 
   @override
+  void initState() {
+    super.initState();
+
+    store.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final userModel = _userModel;
+    // final userModel = _userModel;
+
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -34,12 +44,12 @@ class _HomeState extends State<Home> {
               child: Text('Lista de usuários vazia'),
             );
           } else if (store.error.isNotEmpty) {
-            return const Center(
-              child: Text(error),
+            return Center(
+              child: Text(store.error),
             );
           } else {
             return ListView.builder(
-              itemCount: userModel.length,
+              itemCount: store.userModel?.length,
               itemBuilder: (context, index) {
                 return Card(
                   margin: const EdgeInsets.all(12.0),
@@ -55,14 +65,14 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              _userModel![index].id.toString(),
+                              store.userModel![index].id.toString(),
                               style: const TextStyle(
                                 fontSize: 24,
                                 color: Colors.black,
                               ),
                             ),
                             Text(
-                              _userModel![index].name,
+                              store.userModel![index].name,
                               style: const TextStyle(
                                 fontSize: 24,
                                 color: Colors.black,
@@ -78,14 +88,14 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              _userModel![index].email,
+                              store.userModel![index].email,
                               style: const TextStyle(
                                 fontSize: 18,
                                 //color: Colors.black,
                               ),
                             ),
                             Text(
-                              _userModel![index].website,
+                              store.userModel![index].website,
                               style: const TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
