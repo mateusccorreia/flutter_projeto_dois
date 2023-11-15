@@ -9,11 +9,16 @@ class ApiService {
     try {
       var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndPoint);
       var response = await http.get(url);
+
       if (response.statusCode == 200) {
         return userModelFromJson(response.body);
+      } else {
+        log('HTTP request failed with status: ${response.statusCode}');
+        log('Response body: ${response.body}');
+        throw Exception('Failed to load data: ${response.reasonPhrase}');
       }
     } catch (e) {
-      log(e.toString());
+      log('Exception during API request: $e');
     }
   }
 }

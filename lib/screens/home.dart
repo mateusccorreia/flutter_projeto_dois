@@ -15,6 +15,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
 
+    store.getData();
     store.addListener(() {
       setState(() {});
     });
@@ -22,8 +23,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // final userModel = _userModel;
-
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -39,13 +38,9 @@ class _HomeState extends State<Home> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (store.error.isEmpty) {
-            return const Center(
-              child: Text('Lista de usuários vazia'),
-            );
-          } else if (store.error.isNotEmpty) {
+          } else if (store.error != null) {
             return Center(
-              child: Text(store.error),
+              child: Text(store.error.toString()),
             );
           } else {
             return ListView.builder(
@@ -115,9 +110,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-// enum AppState {
-//   loading,
-//   loaded,
-//   error,
-// }
