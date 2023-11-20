@@ -4,33 +4,33 @@ import 'package:flutter_projeto_dois/services/api_service.dart';
 
 class UserStore extends ChangeNotifier {
   late List<UserModel>? userModel = [];
-  // var state = UserState.loading;
-  var loading = false;
-  var loaded = false;
+  DataState dataState = DataState.loading;
+  // var loading = false;
+  // var loaded = false;
   Object? error;
 
   void getData() async {
-    print('Chamando getData');
-    loading = true;
-    loaded = false;
+    dataState = DataState.loading;
+    // loading = true;
+    // loaded = false;
     error = null;
     notifyListeners();
-
     try {
       userModel = (await ApiService().getUsers())!;
-      loading = false;
-      loaded = true;
+      dataState = DataState.loaded;
+      // loading = false;
+      // loaded = true;
       notifyListeners();
     } catch (e) {
       error = e.toString();
-      loaded = false;
+      // loaded = false;
       notifyListeners();
     }
   }
 }
 
-// enum UserState {
-//   loading,
-//   loaded,
-//   error,
-// }
+enum DataState {
+  loading,
+  loaded,
+  error,
+}

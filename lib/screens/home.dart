@@ -34,15 +34,11 @@ class _HomeState extends State<Home> {
         ),
         backgroundColor: Colors.purple,
         body: () {
-          if (store.loading) {
+          if (store.dataState == DataState.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (store.error != null) {
-            return Center(
-              child: Text(store.error.toString()),
-            );
-          } else {
+          } else if (store.dataState == DataState.loaded) {
             return ListView.builder(
               itemCount: store.userModel?.length,
               itemBuilder: (context, index) {
@@ -103,6 +99,10 @@ class _HomeState extends State<Home> {
                   ),
                 );
               },
+            );
+          } else if (store.error != null) {
+            return Center(
+              child: Text(store.error.toString()),
             );
           }
         }(),
