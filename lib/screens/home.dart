@@ -98,9 +98,22 @@ class _HomeState extends State<Home> {
                     );
                   },
                 ),
-              DataState.error => const Center(
-                  child: Text('Ocorreu um erro ao buscar os dados'),
-                ),
+              DataState.error => Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Não foi possível carregador os dados',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(onPressed: () => store.getData(), child: const Text('Tente novamente')),
+                    ],
+                  ),
+                )
             };
           },
         ),
