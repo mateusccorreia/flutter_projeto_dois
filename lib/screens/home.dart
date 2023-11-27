@@ -33,16 +33,18 @@ class _HomeState extends State<Home> {
         body: ListenableBuilder(
           listenable: store,
           builder: (context, child) {
-            return switch (store.dataState) {
-              DataState.loading => const Center(
+            final state = store.dataState;
+
+            return switch (state) {
+              Loading() => const Center(
                   child: CircularProgressIndicator(),
                 ),
-              DataState.loaded => ListView.builder(
-                  itemCount: store.userModel?.length,
+              Loaded() => ListView.builder(
+                  itemCount: state.users!.length,
                   itemBuilder: (context, index) {
                     return Card(
-                      margin: const EdgeInsets.all(12.0),
                       color: Colors.yellow,
+                      margin: const EdgeInsets.all(12.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
@@ -54,14 +56,14 @@ class _HomeState extends State<Home> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  store.userModel![index].id.toString(),
+                                  state.users![index].id.toString(),
                                   style: const TextStyle(
                                     fontSize: 24,
                                     color: Colors.black,
                                   ),
                                 ),
                                 Text(
-                                  store.userModel![index].name,
+                                  state.users![index].name,
                                   style: const TextStyle(
                                     fontSize: 24,
                                     color: Colors.black,
@@ -77,14 +79,14 @@ class _HomeState extends State<Home> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  store.userModel![index].email,
+                                  state.users![index].email,
                                   style: const TextStyle(
                                     fontSize: 18,
                                     //color: Colors.black,
                                   ),
                                 ),
                                 Text(
-                                  store.userModel![index].website,
+                                  state.users![index].website,
                                   style: const TextStyle(
                                     fontSize: 18,
                                     color: Colors.black,
@@ -98,16 +100,13 @@ class _HomeState extends State<Home> {
                     );
                   },
                 ),
-              DataState.error => Center(
+              Error() => Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
                         'Não foi possível carregador os dados',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton(onPressed: () => store.getData(), child: const Text('Tente novamente')),

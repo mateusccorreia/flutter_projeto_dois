@@ -3,25 +3,34 @@ import 'package:flutter_projeto_dois/model/user_model.dart';
 import 'package:flutter_projeto_dois/services/api_service.dart';
 
 class UserStore extends ChangeNotifier {
-  late List<UserModel>? userModel = [];
-  DataState dataState = DataState.loading;
+  DataState dataState = Loading();
 
   void getData() async {
-    dataState = DataState.loading;
+    dataState = Loading();
     notifyListeners();
     try {
-      userModel = (await ApiService().getUsers())!;
-      dataState = DataState.loaded;
+      final userList = (await ApiService().getUsers())!;
+      dataState = Loaded(users: userList);
       notifyListeners();
     } catch (e) {
-      dataState = DataState.error;
+      dataState = Error(message: e);
       notifyListeners();
     }
   }
 }
 
-enum DataState {
-  loading,
-  loaded,
-  error,
+sealed class DataState {}
+
+class Loading extends DataState {}
+
+class Loaded extends DataState {
+  final List<UserModel>? users;
+
+  Loaded({required this.users});
+}
+
+class Error extends DataState {
+  final Object message;
+
+  Error({required this.message});
 }
