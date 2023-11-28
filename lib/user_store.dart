@@ -8,6 +8,7 @@ class UserStore extends ChangeNotifier {
   void getData() async {
     dataState = Loading();
     notifyListeners();
+
     try {
       final userList = (await ApiService().getUsers())!;
       dataState = Loaded(users: userList);
@@ -24,7 +25,7 @@ sealed class DataState {}
 class Loading extends DataState {}
 
 class Loaded extends DataState {
-  final List<UserModel>? users;
+  final List<UserModel> users;
 
   Loaded({required this.users});
 }

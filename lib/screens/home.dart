@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
                   child: CircularProgressIndicator(),
                 ),
               Loaded() => ListView.builder(
-                  itemCount: state.users!.length,
+                  itemCount: state.users.length,
                   itemBuilder: (context, index) {
                     return Card(
                       color: Colors.yellow,
@@ -56,14 +56,14 @@ class _HomeState extends State<Home> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  state.users![index].id.toString(),
+                                  state.users[index].id.toString(),
                                   style: const TextStyle(
                                     fontSize: 24,
                                     color: Colors.black,
                                   ),
                                 ),
                                 Text(
-                                  state.users![index].name,
+                                  state.users[index].name,
                                   style: const TextStyle(
                                     fontSize: 24,
                                     color: Colors.black,
@@ -79,14 +79,14 @@ class _HomeState extends State<Home> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  state.users![index].email,
+                                  state.users[index].email,
                                   style: const TextStyle(
                                     fontSize: 18,
                                     //color: Colors.black,
                                   ),
                                 ),
                                 Text(
-                                  state.users![index].website,
+                                  state.users[index].website,
                                   style: const TextStyle(
                                     fontSize: 18,
                                     color: Colors.black,
